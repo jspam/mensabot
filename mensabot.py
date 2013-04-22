@@ -2,7 +2,7 @@
 
 from errbot.botplugin import BotPlugin
 from errbot import botcmd
-from urllib2 import urlopen
+from urllib.request import urlopen
 from lxml import etree
 from datetime import datetime
 
@@ -16,7 +16,7 @@ class MensaBot(BotPlugin):
 		""" Prints the menu @Mensa Uni Karlsruhe for this day (before 2pm) or the next day (2pm and after) in a compact form. """
 		result = {}
 		lines = ["1", "2", "3", "4/5", "SB", "6"]
-		html = etree.HTML(urlopen("http://www.studentenwerk-karlsruhe.de/de/food/?view=ok&STYLE=popup_plain&c=adenauerring&p=1").read())
+		html = etree.HTML(urlopen("http://www.studentenwerk-karlsruhe.de/de/essen/?view=ok&STYLE=popup_plain&c=adenauerring&p=1").read())
 		
 		# Show table for next day after 2pm
 		tableindex = 1
@@ -38,12 +38,12 @@ class MensaBot(BotPlugin):
 				if len(price_nodes) == 0:
 					continue
 
-				price = price_nodes[0].strip().encode("utf-8")
-				if price.strip().startswith("0,"):
+				price = price_nodes[0].strip()
+				if price.startswith("0,"):
 					continue
 				
 				# Display only the bold-face part of the food name
-				foodname = food[0].xpath("span/b")[0].text.strip().encode("utf-8")
+				foodname = food[0].xpath("span/b")[0].text.strip()
 				
 				# Append food and price to results
 				if lines[idx] not in result:
