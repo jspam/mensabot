@@ -1,11 +1,15 @@
 # coding: utf8
 
-from errbot import BotPlugin, botcmd
+from errbot.botplugin import BotPlugin
+from errbot import botcmd
 from urllib2 import urlopen
 from lxml import etree
 from datetime import datetime
 
 class MensaBot(BotPlugin):
+
+	def __init__(self):
+		super(MensaBot, self).__init__()
 
 	@botcmd
 	def mensa(self, mess, args):
