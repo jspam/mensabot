@@ -1,0 +1,6 @@
+[Core]
+Name = MensaBot
+Module = mensabot
+
+[Documentation]
+Description = Prints the menu @Mensa Uni Karlsruhe for this day (before 2pm) or the next day (2pm and after) in a compact form.
