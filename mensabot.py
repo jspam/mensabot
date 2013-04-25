@@ -34,7 +34,7 @@ class MensaBot(BotPlugin):
 			for food in row[1].xpath("table/tr"):
 			
 				# Don't display food items which cost less than €1 or have no assigned price.
-				price_nodes = food[1].xpath("span//text()[last()]")
+				price_nodes = food[1].xpath("span[contains(@class,'price_1')]/text()")
 				if len(price_nodes) == 0:
 					continue
 
