@@ -62,6 +62,8 @@ class MensaBot(BotPlugin):
 			"多吃点!",
 			"прия́тного аппети́та!",
 			"Smacznego!",
+			"Brought to you by the one and only Mensabot™ – since 1803.",
+			"(Disclaimer: Mensabot™ übernimmt keine Verantwortung für erlittene oder eingebildete Lebensmittelvergiftungen.)",
 			"(Apropos: Wann gehen wir mal wieder Blut spenden?)",
 			"(Es steht mir ja nicht zu, das zu kommentieren, aber ich empfehle heute Linie " + choice(["1", "2", "3", "4/5", "6", "42", "9 3/4"]) + ".)",
 			"(Ich sag’s ja nur ungern, aber da ist heute nix dabei. Auf zur Schnitzelbar!)",
@@ -91,9 +93,11 @@ class MensaBot(BotPlugin):
 			comments.append("(Übrigens: Schon mal was von einem Oxymoron gehört?)")
 		if "weißwein" in result.lower() or "rotwein" in result.lower():
 			comments.append("Prost!")
+		if "bifteki" in result.lower():
+			comments.append("(Das müsste eigentlich Bifteki™ heißen.)")
 
 		if datetime.now().weekday() == 2:
-			comments.append("(Heute ist Eintopftag! All glory to the Eintopf!)")
+			comments.append("(Heute ist Eintopftag! All glory to the Erbseneintopf!)")
 		if datetime.now().weekday() == 4:
 			comments.append("(Übrigens gibt es heute kein Abendessen in der Mensa. Tja, Pech.)")
 
