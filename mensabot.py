@@ -5,6 +5,7 @@ from errbot import botcmd
 from urllib.request import urlopen
 from lxml import etree
 from datetime import datetime
+from random import choice
 
 class MensaBot(BotPlugin):
 
@@ -51,4 +52,49 @@ class MensaBot(BotPlugin):
 					
 				result[lines[idx]].append(foodname + " " + price)
 
-		return " ".join(["[" + key + "] " + ", ".join(result[key]) for key in lines if key in result])
+		result = " ".join(["[" + key + "] " + ", ".join(result[key]) for key in lines if key in result])
+
+		comments = ["Guten Appetit!",
+			"Bon appétit!",
+			"Enjoy your meal!",
+			"¡Buen provecho!",
+			"Buon appetito!",
+			"多吃点!",
+			"прия́тного аппети́та!",
+			"Smacznego!",
+			"(Apropos: Wann gehen wir mal wieder Blut spenden?)",
+			"(Es steht mir ja nicht zu, das zu kommentieren, aber ich empfehle heute Linie " + choice(["1", "2", "3", "4/5", "6", "42", "9 3/4"]) + ".)",
+			"(Ich sag’s ja nur ungern, aber da ist heute nix dabei. Auf zur Schnitzelbar!)",
+			"(Wenn’s mal nicht geschmeckt hat: Mail an verpflegung@studentenwerk-karlsruhe.de)",]
+
+		if "omlette" in result.lower():
+			comments.append("(P.S. Wann wird „Omelette“ mal richtig geschrieben?)")
+		if "spinat" in result.lower():
+			comments.append("(Spinat habe ich übrigens noch nie gemocht.)")
+		if "medaillon" in result.lower():
+			comments.append("(Bullshit-Bingo: Medaillon!)")
+		if "bolognese" in result.lower():
+			comments.append("(Also Bolognese kann ich auch zu Hause kochen.!)")
+		if "sahnesoße" in result.lower():
+			comments.append("(Warnung: Sahnesoße ist mit 70% Wahrscheinlichkeit einfach nur Wasser.)")
+		if "paella" in result.lower():
+			comments.append("(Hach, Paella. Das erinnert mich an meine Zeit in Barcelona. Sonne, Sommer, Strand … jemand neidisch?)")
+		if "schlemmer" in result.lower():
+			comments.append("(Also Namen ausdenken können die sich, das muss man ihnen lassen.)")
+		if "fagottini" in result.lower():
+			comments.append("(Fagottini … fagöttlich!)")
+		if "kaiser" in result.lower():
+			comments.append("(Schon gewusst? Die Mensaleitung ist von Monarchisten durchsetzt.)")
+		if "gulasch" in result.lower():
+			comments.append("(Gulasch? Erinnert mich an die GPN. Schöne Zeiten!)")
+		if "vegetarisches schnitzel" in result.lower():
+			comments.append("(Übrigens: Schon mal was von einem Oxymoron gehört?)")
+		if "weißwein" in result.lower() or "rotwein" in result.lower():
+			comments.append("Prost!")
+
+		if datetime.now().weekday() == 2:
+			comments.append("(Heute ist Eintopftag! All glory to the Eintopf!)")
+		if datetime.now().weekday() == 4:
+			comments.append("(Übrigens gibt es heute kein Abendessen in der Mensa. Tja, Pech.)")
+
+		return result + ". " + choice(comments)
