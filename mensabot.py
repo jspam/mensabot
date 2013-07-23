@@ -33,6 +33,8 @@ class MensaBot(BotPlugin):
 
 			# Each row inside the subtable represents a food item
 			for food in row[1].xpath("table/tr"):
+				if len(food) < 2:
+					continue
 			
 				# Don't display food items which cost less than €1 or have no assigned price.
 				price_nodes = food[1].xpath("span[contains(@class,'price_1')]/text()")
