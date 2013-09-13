@@ -4,7 +4,7 @@ from errbot.botplugin import BotPlugin
 from errbot import botcmd
 from urllib.request import urlopen
 from lxml import etree
-from datetime import datetime
+from datetime import datetime, timedelta
 from random import choice
 
 class MensaBot(BotPlugin):
@@ -17,13 +17,22 @@ class MensaBot(BotPlugin):
 		""" Prints the menu @Mensa Uni Karlsruhe for this day (before 2pm) or the next day (2pm and after) in a compact form. """
 		result = {}
 		lines = ["1", "2", "3", "4/5", "SB", "6"]
-		html = etree.HTML(urlopen("http://www.studentenwerk-karlsruhe.de/de/essen/?view=ok&STYLE=popup_plain&c=adenauerring&p=1").read())
+
+		# Get menu for current week until friday 2pm, for next week after
+		week = datetime.date(datetime.now()).isocalendar()[1]
+
+		if datetime.now().weekday() > 4 or (datetime.now().weekday() == 4 and datetime.now().hour >= 14):
+			# http://stackoverflow.com/a/6558588/1083696
+			nextmonday = datetime.now() + timedelta(days=(7 - datetime.now().weekday()))
+			week = nextmonday.isocalendar()[1]
+
+		html = etree.HTML(urlopen("http://www.studentenwerk-karlsruhe.de/de/essen/?view=ok&STYLE=popup_plain&c=adenauerring&p=1&kw=" + str(week)).read())
 		
-		# Show table for next day after 2pm
+		# Show table for next day after 2pm (but not after Friday, since the table for next Monday is then read)
 		tableindex = 1
-		if datetime.now().hour >= 14:
+		if datetime.now().weekday() < 4 and datetime.now().hour >= 14:
 			tableindex = 2
-		
+
 		# Each row represents a line.
 		rows = [r for r in html.xpath("/html/body/table/tr/td/div/table[" + str(tableindex) + "]/tr") if len(r)]
 		for idx, row in enumerate(rows):
