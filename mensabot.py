@@ -45,13 +45,13 @@ class MensaBot(BotPlugin):
 				if len(food) < 3:
 					continue
 			
-				# Don't display food items which cost less than €1 or have no assigned price.
+				# Don't display food items which cost €1 or less or have no assigned price.
 				price_nodes = food[2].xpath("span[contains(@class,'bg')]/text()")
 				if len(price_nodes) == 0:
 					continue
 
 				price = price_nodes[0].strip()
-				if price.startswith("0,"):
+				if price.startswith("0,") or price.startswith("1,00"):
 					continue
 				
 				# Display only the bold-face part of the food name
